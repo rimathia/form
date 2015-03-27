@@ -48,8 +48,16 @@
 #include <string>
 #include <algorithm>
 #include <iostream>
+// on Mavericks the default standard library doesn't have tr1 headers anymore
+#ifdef _LIBCPP_VERSION
+// using the new libc++
+#include <unordered_set>
+#include <unordered_map>
+#else
+// using the old libstdc++
 #include <tr1/unordered_set>
 #include <tr1/unordered_map>
+#endif
 
 extern "C" {
 #include "form3.h"
@@ -60,6 +68,14 @@ extern "C" {
 //#endif
 
 using namespace std;
+// on Mavericks the default standard library doesn't have tr1 headers anymore
+#ifdef _LIBCPP_VERSION
+// using the new libc++
+#else
+// using the old libstdc++
+using tr1::unordered_map;
+using tr1::unordered_set;
+#endif
 
 // operators
 const WORD OPER_ADD = -1;
@@ -1034,7 +1050,7 @@ vector<WORD> generate_instructions (const vector<WORD> &tree, bool do_CSE) {
 						thetime_str().c_str(), do_CSE?1:0);
 #endif
 
-	typedef tr1::unordered_map<vector<WORD>, int, CSEHash, CSEEq> csemap;
+	typedef unordered_map<vector<WORD>, int, CSEHash, CSEEq> csemap;
 	csemap ID;
 
 	// reserve lots of space, to prevent later rehashes
@@ -1240,7 +1256,7 @@ vector<WORD> generate_instructions (const vector<WORD> &tree, bool do_CSE) {
 int count_operators_cse (const vector<WORD> &tree) {
 	//MesPrint ("*** [%s] Starting CSEE", thetime_str().c_str());
 
-	typedef tr1::unordered_map<vector<WORD>, int, CSEHash, CSEEq> csemap;
+	typedef unordered_map<vector<WORD>, int, CSEHash, CSEEq> csemap;
 	csemap ID;
 
 	// reserve lots of space, to prevent later rehashes
@@ -1522,7 +1538,7 @@ NODE* buildTree(vector<WORD> &tree) {
 }
 
 int count_operators_cse_topdown (vector<WORD> &tree) {
-	typedef tr1::unordered_set<NODE*, NodeHash, NodeEq> nodeset;
+	typedef unordered_set<NODE*, NodeHash, NodeEq> nodeset;
 	nodeset ID;
 
 	// reserve lots of space, to prevent later rehashes
