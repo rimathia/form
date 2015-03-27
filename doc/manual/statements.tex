@@ -3886,7 +3886,8 @@ Syntax & polyratfun {\tt<}name of function{\tt>}; \\
 			  moduleoption (\ref{substamoduleoption})
 \end{tabular}\vspace{4mm}
 
-\noindent Declares the specified\index{polyratfun} function to be the 
+\noindent Declares the specified\index{polyratfun} function (which has been 
+declared beforehand) to be the 
 `polyratfun'. The polyratfun is a function with two 
 arguments\index{argument} which together form a rational polynomial that 
 acts as the 
@@ -3894,6 +3895,8 @@ coefficient\index{coefficient} of the term. If two terms are otherwise
 identical the arguments of their polyratfun will be added during the sorting, 
 even if these arguments are little nontrivial. Hence
 \begin{verbatim}
+    Symbols x, y;
+    CFunction acc;
     PolyRatFun acc;
     Local F = 3*x^2*acc(1+y+y^2,1-y)+2*x^2*acc(1-y+y^2,1+y);
 \end{verbatim}
